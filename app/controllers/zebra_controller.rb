@@ -33,14 +33,15 @@ class ZebraController <ApplicationController
     render({ template: "dice_templates/payment"})
   end
   def dog
-    @principal = params.fetch("users_principal").to_fs(:currency)
-    @apr = params.fetch("users_apr").to_fs(:percentage) / 100 /12
+    @principal = params.fetch("users_principal").to_f
+    @apr = params.fetch("users_apr").to_f / 100 / 12
     @years = params.fetch("users_year").to_f * 12
-  
-    @top = @apr * (@principal)
-    @bottom = 1 - ((1 + @apr) ** (-1 * @years))  
 
-    @payment = @top/@bottom
+
+    @top = @apr * @principal
+    @bottom = 1 - ((1 + @apr) ** (-1 * @years))
+
+    @payment = (@top/@bottom)
     render({ template: "dice_templates/payment_results"})
   end
 
